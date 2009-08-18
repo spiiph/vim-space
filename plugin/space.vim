@@ -74,7 +74,7 @@ if exists("g:space_debug")
 elseif exists("g:space_loaded")
     finish
 endif
-let g:loaded_space = 1
+let g:space_loaded = 1
 
 noremap <expr> <silent> <Space>   <SID>do_space(0, "<Space>")
 noremap <expr> <silent> <S-Space> <SID>do_space(1, "<S-Space>")
