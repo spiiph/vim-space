@@ -19,6 +19,10 @@
 "
 "   let g:loaded_space = 1
 
+" Set this variable to disable select mode mappings
+"
+"   let g:space_disable_select_mode = 1
+
 " These variables disables the usage of <Space> for groups of different
 " movement commands
 "
@@ -27,6 +31,9 @@
 "
 " Disable <Space> for searches, e.g. /?#*nN
 "   let g:space_no_search = 1
+"
+" Disable <Space> for jump commands, e.g. g, and g;
+"   let g:space_no_jump = 1
 "
 " Disable <Space> for diff commands, e.g. [c and ]c
 "   let g:space_no_diff = 1
@@ -64,6 +71,7 @@
 if exists("g:space_debug")
     let g:space_no_character_movements = 0
     let g:space_no_search = 0
+    let g:space_no_jump = 0
     let g:space_no_diff = 0
     let g:space_no_brace = 0
     let g:space_no_method = 0
@@ -126,6 +134,17 @@ if !exists("g:space_no_search") || !g:space_no_search
     let s:search_mappings = 1
 else
     let s:search_mappings = 0
+endif
+
+" jump commands
+if !exists("g:space_no_jump") || !g:space_no_jump
+    noremap <expr> <silent> g, <SID>setup_space("jump", "g,")
+    noremap <expr> <silent> g; <SID>setup_space("jump", "g;")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap g,
+        silent! sunmap g;
+    endif
 endif
 
 " diff next/prev
@@ -232,6 +251,9 @@ function! s:remove_space_mappings()
     silent! unmap g#
     silent! unmap n
     silent! unmap N
+
+    silent! unmap g,
+    silent! unmap g;
 
     silent! unmap ]c
     silent! unmap [c
@@ -361,6 +383,11 @@ function! s:setup_space(type, command)
         let s:space_move = "n"
         let s:shift_space_move = "N"
         let s:cmd_type = "search"
+        let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "jump"
+        let s:space_move = "g,"
+        let s:shift_space_move = "g;"
+        let s:cmd_type = "jump"
         let cmd = <SID>maybe_open_fold(cmd)
     elseif a:type == "qf"
         let s:space_move = "cn"

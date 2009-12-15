@@ -114,6 +114,9 @@ Character movements:                                    |left-right-motions|
 Search commands:                                           |search-commands|
     |star||gstar||#||g#||n||N|
 
+Change list jumps:                                       |change-list-jumps|
+    |g;||g,|
+
 Diff jumps:                                                   |jumpto-diffs|
     |]c||[c|
 
@@ -144,7 +147,7 @@ Quickfix commands:                                                |quickfix|
    |:cnfile|
    |:cpfile|
    |:cNfile|
-  
+
 Location list commands:                                      |location-list|
    |:lmake|
    |:lvimgrep|
@@ -190,6 +193,9 @@ Disable <Space> for character movements >
 Disable <Space> for search commands >
     let g:space_no_search = 1
 
+Disable <Space> for jump commands >
+    let g:space_no_jump = 1
+
 Disable <Space> for diff jumps >
     let g:space_no_diff = 1
 
@@ -207,6 +213,11 @@ Disable <Space> for fold movements >
 
 Disable <Space> for quickfix and location list commands >
     let g:space_no_quickfix = 1
+
+Furthermore it is possible to disable the hooks and mappings set by space.vim
+to affect the select mode (these can cause problems with some snippets plugins
+like snipmate.vim) >
+    let g:space_disable_select_mode = 1
 
 ==============================================================================
 6. License                                                   *space-license*
