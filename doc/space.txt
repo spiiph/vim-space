@@ -92,7 +92,7 @@ managed to screw up this time? No more! >
     ...           Nothing interesting, keep pressing space
     <S-Space>     Wait, there was something! Let's go back one diff
 
-Or why not quickly browse through all file which contain the sentence 'over
+Or why not quickly browse through all files which contain the sentence 'over
 9000' in all subdirectories? >
     :lvimgrep /over 9000/ **/*      Find all the matches and add them to the
                                     location-list
