@@ -80,6 +80,12 @@ noremap <expr> <silent> <Space>   <SID>do_space(0, "<Space>")
 noremap <expr> <silent> <S-Space> <SID>do_space(1, "<S-Space>")
 noremap <expr> <silent> <BS>      <SID>do_space(1, "<BS>")
 
+if exists("g:space_disable_select_mode")
+    silent! sunmap <Space>
+    silent! sunmap <S-Space>
+    silent! sunmap <BS>
+endif
+
 " character movement commands
 if !exists("g:space_no_character_movements") || !g:space_no_character_movements
     noremap <expr> <silent> f <SID>setup_space("char", "f")
@@ -88,6 +94,15 @@ if !exists("g:space_no_character_movements") || !g:space_no_character_movements
     noremap <expr> <silent> T <SID>setup_space("char", "T")
     noremap <expr> <silent> ; <SID>setup_space("char", ";")
     noremap <expr> <silent> , <SID>setup_space("char", ",")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap f
+        silent! sunmap F
+        silent! sunmap t
+        silent! sunmap T
+        silent! sunmap ;
+        silent! sunmap ,
+    endif
 endif
 
 " search commands
@@ -98,6 +113,16 @@ if !exists("g:space_no_search") || !g:space_no_search
     noremap <expr> <silent> g# <SID>setup_space("search", "g#")
     noremap <expr> <silent> n  <SID>setup_space("search", "n")
     noremap <expr> <silent> N  <SID>setup_space("search", "N")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap *
+        silent! sunmap #
+        silent! sunmap g*
+        silent! sunmap g#
+        silent! sunmap n
+        silent! sunmap N
+    endif
+
     let s:search_mappings = 1
 else
     let s:search_mappings = 0
@@ -107,6 +132,11 @@ endif
 if !exists("g:space_no_diff") || !g:space_no_diff
     noremap <expr> <silent> ]c <SID>setup_space("diff", "]c")
     noremap <expr> <silent> [c <SID>setup_space("diff", "[c")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap ]c
+        silent! sunmap [c
+    endif
 endif
 
 " previous/next unmatched ( or [
@@ -116,6 +146,13 @@ if !exists("g:space_no_brace") || !g:space_no_brace
 
     noremap <expr> <silent> ]} <SID>setup_space("curly", "]}")
     noremap <expr> <silent> [{ <SID>setup_space("curly", "[{")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap ])
+        silent! sunmap [(
+        silent! sunmap ]}
+        silent! sunmap [{
+    endif
 endif
 
 " start/end of a method
@@ -125,6 +162,13 @@ if !exists("g:space_no_method") || !g:space_no_method
 
     noremap <expr> <silent> ]M <SID>setup_space("method_end", "]M")
     noremap <expr> <silent> [M <SID>setup_space("method_end", "[M")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap ]m
+        silent! sunmap [m
+        silent! sunmap ]M
+        silent! sunmap [M
+    endif
 endif
 
 " previous/next section or '}'/'{' in the first column
@@ -134,6 +178,13 @@ if !exists("g:space_no_section") || !g:space_no_section
 
     noremap <expr> <silent> ][ <SID>setup_space("section_end", "][")
     noremap <expr> <silent> [] <SID>setup_space("section_end", "[]")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap ]]
+        silent! sunmap [[
+        silent! sunmap ][
+        silent! sunmap []
+    endif
 endif
 
 if !exists("g:space_no_folds") || !g:space_no_folds
@@ -142,6 +193,13 @@ if !exists("g:space_no_folds") || !g:space_no_folds
 
     noremap <expr> <silent> ]z <SID>setup_space("fold_start", "]z")
     noremap <expr> <silent> [z <SID>setup_space("fold_start", "[z")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap zj
+        silent! sunmap zk
+        silent! sunmap ]z
+        silent! sunmap [z
+    endif
 endif
 
 
@@ -206,10 +264,10 @@ endfunction
 " TODO: Check if the '\>!\=' part of the pattern fails when 'iskeyword'
 "       contains '!'
 " NOTE: Since Vim allows commands like ":'k,'lvim /foo/ *", it's a little
-"       tedious to write a perfect regexp. 
+"       tedious to write a perfect regexp.
 let s:qf_re = '\%(' .
-    \ 'mak\%[e]\|' . 
-    \ 'v\%[imgrep]\|' . 
+    \ 'mak\%[e]\|' .
+    \ 'v\%[imgrep]\|' .
     \ 'gr\%[ep]\|' .
     \ 'c\%(' .
     \   'c\|' .
@@ -222,8 +280,8 @@ let s:qf_re = '\%(' .
     \ '\)\>!\='
 
 let s:lf_re = 'l\%(' .
-    \ 'mak\%[e]\|' . 
-    \ 'v\%[imgrep]\|' . 
+    \ 'mak\%[e]\|' .
+    \ 'v\%[imgrep]\|' .
     \ 'gr\%[ep]\|' .
     \ 'l\|' .
     \ 'p\%[revious]\|' .
@@ -365,7 +423,7 @@ function! s:maybe_open_fold(cmd)
             endif
         endif
     else
-        if s:cmd_type == "quickfix" 
+        if s:cmd_type == "quickfix"
             if getcmdtype() == ':'
                 return "\<CR>"
             else
