@@ -114,6 +114,9 @@ Character movements:                                    |left-right-motions|
 Search commands:                                           |search-commands|
     |star||gstar||#||g#||n||N|
 
+Jump list jumps:                                              |jump-motions|
+    |CTRL-O||CTRL-I|
+
 Change list jumps:                                       |change-list-jumps|
     |g;||g,|
 

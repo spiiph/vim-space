@@ -32,7 +32,7 @@
 " Disable <Space> for searches, e.g. /?#*nN
 "   let g:space_no_search = 1
 "
-" Disable <Space> for jump commands, e.g. g, and g;
+" Disable <Space> for jump commands, e.g. Ctrl-O, Ctrl-I, g, and g;
 "   let g:space_no_jump = 1
 "
 " Disable <Space> for diff commands, e.g. [c and ]c
@@ -138,12 +138,16 @@ endif
 
 " jump commands
 if !exists("g:space_no_jump") || !g:space_no_jump
-    noremap <expr> <silent> g, <SID>setup_space("jump", "g,")
-    noremap <expr> <silent> g; <SID>setup_space("jump", "g;")
+    noremap <expr> <silent> g, <SID>setup_space("cjump", "g,")
+    noremap <expr> <silent> g; <SID>setup_space("cjump", "g;")
+    noremap <expr> <silent> <C-O> <SID>setup_space("jump", "\<C-o>")
+    noremap <expr> <silent> <C-I> <SID>setup_space("jump", "\<C-i>")
 
     if exists("g:space_disable_select_mode")
         silent! sunmap g,
         silent! sunmap g;
+        silent! sunmap <C-o>
+        silent! sunmap <C-i>
     endif
 endif
 
@@ -254,6 +258,8 @@ function! s:remove_space_mappings()
 
     silent! unmap g,
     silent! unmap g;
+    silent! unmap <C-o>
+    silent! unmap <C-i>
 
     silent! unmap ]c
     silent! unmap [c
@@ -384,9 +390,14 @@ function! s:setup_space(type, command)
         let s:shift_space_move = "N"
         let s:cmd_type = "search"
         let cmd = <SID>maybe_open_fold(cmd)
-    elseif a:type == "jump"
+    elseif a:type == "cjump"
         let s:space_move = "g,"
         let s:shift_space_move = "g;"
+        let s:cmd_type = "jump"
+        let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "jump"
+        let s:space_move = "\<C-i>"
+        let s:shift_space_move = "\<C-o>"
         let s:cmd_type = "jump"
         let cmd = <SID>maybe_open_fold(cmd)
     elseif a:type == "qf"
@@ -472,7 +483,7 @@ endfunc
 
 function! GetSpaceMovement()
     if exists("s:space_move")
-        return s:space_move
+        return s:space_move == "\<C-i>" ? "^I" : s:space_move
     else
         return ""
     end
