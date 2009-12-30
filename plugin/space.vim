@@ -438,6 +438,10 @@ function! s:do_space(shift, default)
 endfunc
 
 function! s:maybe_open_fold(cmd)
+    " do not (un)fold in change mode
+    if v:operator == "c"
+        return a:cmd
+    endif
     if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type
         " special treatment of :ex commands
         if s:cmd_type == "quickfix"
