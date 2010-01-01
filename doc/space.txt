@@ -135,7 +135,7 @@ Section jumps:                                              |object-motions|
 Fold movements:
     |zj||zk||]z||[z|
 
-Undolist movements:                                           |undo-branches|
+Undolist movements:                                          |undo-branches|
    |g-||g+|
 
 Quickfix commands:                                                |quickfix|
