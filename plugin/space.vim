@@ -52,6 +52,9 @@
 "
 " Disable <Space> for quickfix and location list commands, e.g. :cc, :ll, etc.
 "   let g:space_no_quickfix = 1
+"
+" Disable <Space> for undolist movements, e.g. g- and g+
+"   let g:space_no_undolist = 1
 
 " It is possible to display the current command assigned to <Space> in the
 " status line using the GetSpaceMovement() function. Here's an example:
@@ -78,6 +81,7 @@ if exists("g:space_debug")
     let g:space_no_section = 0
     let g:space_no_folds = 0
     let g:space_no_quickfix = 0
+    let g:space_no_undolist = 0
     echomsg "Running space.vim in debug mode."
 elseif exists("g:space_loaded")
     finish
@@ -210,6 +214,7 @@ if !exists("g:space_no_section") || !g:space_no_section
     endif
 endif
 
+" previous/next fold
 if !exists("g:space_no_folds") || !g:space_no_folds
     noremap <expr> <silent> zj <SID>setup_space("fold_next", "zj")
     noremap <expr> <silent> zk <SID>setup_space("fold_next", "zk")
@@ -225,6 +230,16 @@ if !exists("g:space_no_folds") || !g:space_no_folds
     endif
 endif
 
+" undolist movement
+if !exists("g:space_no_undolist") || !g:space_no_undolist
+    noremap <expr> <silent> g- <SID>setup_space("undo", "g-")
+    noremap <expr> <silent> g+ <SID>setup_space("undo", "g+")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap g-
+        silent! sunmap g+
+    endif
+endif
 
 " quickfix and location list commands
 if !exists("g:space_no_quickfix") || !g:space_no_quickfix
@@ -283,6 +298,9 @@ function! s:remove_space_mappings()
     silent! unmap zk
     silent! unmap ]z
     silent! unmap [z
+
+    silent! unmap g-
+    silent! unmap g+
 
     silent! cunmap <CR>
 
@@ -409,6 +427,11 @@ function! s:setup_space(type, command)
         let s:space_move = "lne"
         let s:shift_space_move = "lN"
         let s:cmd_type = "quickfix"
+        let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "undo"
+        let s:space_move = "g-"
+        let s:shift_space_move = "g+"
+        let s:cmd_type = "undo"
         let cmd = <SID>maybe_open_fold(cmd)
     endif
     call <SID>debug_msg("setup_space(type = " . a:type .

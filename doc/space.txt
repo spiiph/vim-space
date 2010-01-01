@@ -135,6 +135,9 @@ Section jumps:                                              |object-motions|
 Fold movements:
     |zj||zk||]z||[z|
 
+Undolist movements:                                           |undo-branches|
+   |g-||g+|
+
 Quickfix commands:                                                |quickfix|
    |:make|
    |:vimgrep|
@@ -216,6 +219,9 @@ Disable <Space> for fold movements >
 
 Disable <Space> for quickfix and location list commands >
     let g:space_no_quickfix = 1
+
+Disable <Space> for undolist movements >
+    let g:space_no_undolist = 1
 
 Furthermore it is possible to disable the hooks and mappings set by space.vim
 to affect the select mode (these can cause problems with some snippets plugins
