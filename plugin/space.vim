@@ -461,10 +461,6 @@ function! s:do_space(shift, default)
 endfunc
 
 function! s:maybe_open_fold(cmd)
-    " do not (un)fold in change mode
-    if v:operator == "c"
-        return a:cmd
-    endif
     if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type
         " special treatment of :ex commands
         if s:cmd_type == "quickfix"
@@ -477,6 +473,10 @@ function! s:maybe_open_fold(cmd)
         elseif s:cmd_type == "search" && getcmdtype() =~ "[/?]"
             return "\<CR>zv"
         else
+            " do not (un)fold in change mode
+            if v:operator == "c"
+                return a:cmd
+            endif
             if mode() =~ "[vV]"
                 " NOTE: That this works is probably a bug in vim.  Let's hope
                 "       it stays that way. ;)
