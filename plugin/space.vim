@@ -431,7 +431,7 @@ function! s:maybe_open_fold(cmd)
         " special treatment of :ex commands
         if s:cmd_type == "quickfix"
             if getcmdtype() == ':'
-                return "\<CR>zv"
+                return "\<CR>"
             else
                 return ":\<C-u>" . (v:count ? v:count : "") . a:cmd . "\<CR>zv"
             endif
