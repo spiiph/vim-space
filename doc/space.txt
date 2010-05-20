@@ -4,7 +4,7 @@
 
      ______  ______   _____   _____  _____
     / _____\ | ___ \ / ___ \ / ___/ / ___/
-    \ \____  | ___ / | \ / | | |    | \__ 
+    \ \____  | ___ / | \ / | | |    | \__
      \___  \ | |     | |X| | | |___ | /___
     /______/ \_|     \_/ \_/ \____/ \____/
 
@@ -135,6 +135,9 @@ Section jumps:                                              |object-motions|
 Fold movements:
     |zj||zk||]z||[z|
 
+Tag movements:                                                |tag-commands|
+    |CTRL-]|
+
 Undolist movements:                                          |undo-branches|
    |g-||g+|
 
@@ -216,6 +219,9 @@ Disable <Space> for section jumps >
 
 Disable <Space> for fold movements >
     let g:space_no_folds = 1
+
+Disable <Space> for tag movements >
+    let g:space_no_tags = 1
 
 Disable <Space> for quickfix and location list commands >
     let g:space_no_quickfix = 1

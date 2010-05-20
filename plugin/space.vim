@@ -82,6 +82,7 @@ if exists("g:space_debug")
     let g:space_no_folds = 0
     let g:space_no_quickfix = 0
     let g:space_no_undolist = 0
+    let g:space_no_tags = 0
     echomsg "Running space.vim in debug mode."
 elseif exists("g:space_loaded")
     finish
@@ -245,6 +246,15 @@ if !exists("g:space_no_folds") || !g:space_no_folds
     endif
 endif
 
+" tag movement
+if !exists("g:space_no_tags") || !g:space_no_tags
+    noremap <expr> <silent> <C-]> <SID>setup_space("tag", "\<C-]>")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap <C-]>
+    endif
+endif
+
 " undolist movement
 if !exists("g:space_no_undolist") || !g:space_no_undolist
     noremap <expr> <silent> g- <SID>setup_space("undo", "g-")
@@ -313,6 +323,8 @@ function! s:remove_space_mappings()
     silent! unmap zk
     silent! unmap ]z
     silent! unmap [z
+
+    silent! unmap <C-]>
 
     silent! unmap g-
     silent! unmap g+
@@ -433,6 +445,10 @@ function! s:setup_space(type, command)
         let s:shift_space_move = "\<C-o>"
         let s:cmd_type = "jump"
         let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "tag"
+        let s:space_move = "tn"
+        let s:shift_space_move = "tp"
+        let s:cmd_type = "tag"
     elseif a:type == "qf"
         let s:space_move = "cn"
         let s:shift_space_move = "cN"
@@ -478,7 +494,7 @@ endfunc
 function! s:maybe_open_fold(cmd)
     if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type
         " special treatment of :ex commands
-        if s:cmd_type == "quickfix"
+        if s:cmd_type == "quickfix" || s:cmd_type == "tag"
             if getcmdtype() == ':'
                 return "\<CR>"
             else
@@ -503,7 +519,7 @@ function! s:maybe_open_fold(cmd)
             endif
         endif
     else
-        if s:cmd_type == "quickfix"
+        if s:cmd_type == "quickfix" || s:cmd_type == "tag"
             if getcmdtype() == ':'
                 return "\<CR>"
             else
