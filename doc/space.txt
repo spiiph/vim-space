@@ -34,10 +34,10 @@ variable in your |vimrc| file: >
     :let g:space_loaded = 1
 
 space.vim hooks into several of the more complex motion commands, such as
-|search-commands|, |jumpto-diffs|, |quickfix| and |location-list| and more
-commands. When a command that space.vim has hooked into is issued, it remaps
-the <Space> key to repeat that command, and it also remaps <S-Space> and
-<BS> to do the reverse.
+|search-commands|, |jumpto-diffs|, |quickfix|, |tag-commands| and
+|location-list| and more commands. When a command that space.vim has hooked
+into is issued, it remaps the <Space> key to repeat that command, and it also
+remaps <S-Space> and <BS> to do the reverse.
 
 NOTE:~Due to terminal restrictions, <S-Space> may not be available. For that
 reason, the <BS> key is also used for reverse motions. Wherever this document
@@ -137,6 +137,12 @@ Fold movements:
 
 Tag movements:                                                |tag-commands|
     |CTRL-]|
+    |:tnext|
+    |:tprevious|
+    |:tNext|
+    |:trewind|
+    |:tfirst|
+    |:tlast|
 
 Undolist movements:                                          |undo-branches|
    |g-||g+|

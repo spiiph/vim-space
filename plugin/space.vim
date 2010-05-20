@@ -253,6 +253,10 @@ if !exists("g:space_no_tags") || !g:space_no_tags
     if exists("g:space_disable_select_mode")
         silent! sunmap <C-]>
     endif
+
+    let s:tag_mappings = 1
+else
+    let s:tag_mappings = 0
 endif
 
 " undolist movement
@@ -364,17 +368,31 @@ let s:lf_re = 'l\%(' .
     \ '\(f\|nf\|Nf\|pf\)\%[ile]' .
     \ '\)\>!\='
 
+let s:ta_re = 't\%(' .
+    \ 'n\%[ext]\|' .
+    \ 'p\%[revious]\|' .
+    \ 'N\%[ext]\|' .
+    \ 'r\%[ewind]\|' .
+    \ 'f\%[irst]\|' .
+    \ 'l\%[ast]\|' .
+    \ '\)\>!\='
+
 function! s:parse_cmd_line()
     let cmd = getcmdline()
     let type = getcmdtype()
 
     if s:search_mappings && (type == '/' || type == '?')
         return <SID>setup_space("search", cmd)
-    elseif s:quickfix_mappings && type == ':'
-        if cmd =~ s:lf_re
-            return <SID>setup_space("lf", cmd)
-        elseif cmd =~ s:qf_re
-            return <SID>setup_space("qf", cmd)
+    elseif type == ':'
+        if s:quickfix_mappings
+            if cmd =~ s:lf_re
+                return <SID>setup_space("lf", cmd)
+            elseif cmd =~ s:qf_re
+                return <SID>setup_space("qf", cmd)
+            endif
+        endif
+        if s:tag_mappings && cmd =~ s:ta_re
+            return <SID>setup_space("tag", cmd)
         endif
     end
     return "\<CR>"
@@ -449,6 +467,9 @@ function! s:setup_space(type, command)
         let s:space_move = "tn"
         let s:shift_space_move = "tp"
         let s:cmd_type = "tag"
+        if getcmdtype() == ':'
+            let cmd = <SID>maybe_open_fold(cmd)
+        endif
     elseif a:type == "qf"
         let s:space_move = "cn"
         let s:shift_space_move = "cN"
