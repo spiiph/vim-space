@@ -342,6 +342,28 @@ endfunction
 "       contains '!'
 " NOTE: Since Vim allows commands like ":'k,'lvim /foo/ *", it's a little
 "       tedious to write a perfect regexp.
+
+let s:pre_re = '^\%(' .
+    \   '\%(' .
+    \     '\%(' .
+    \       '\%(\d\+\)\|' .
+    \       '\%(''\a\)\|' .
+    \       '\%(\\[/?&]\)\|' .
+    \       '[%$.]' .
+    \     '\)\=' .
+    \     ',' .
+    \     '\%(' .
+    \       '\%(\d\+\)\|' .
+    \       '\%(''\a\)\|' .
+    \       '\%(\\[/?&]\)\|' .
+    \       '[%$.]' .
+    \     '\)\=' .
+    \   '\)\|' .
+    \   '\d\+\|' .
+    \   '%\|' .
+    \   '\.' .
+    \ '\)\='
+
 let s:qf_re = '\%(' .
     \ 'mak\%[e]\|' .
     \ 'v\%[imgrep]\|' .
@@ -385,13 +407,13 @@ function! s:parse_cmd_line()
         return <SID>setup_space("search", cmd)
     elseif type == ':'
         if s:quickfix_mappings
-            if cmd =~ s:lf_re
+            if cmd =~ s:pre_re . s:lf_re
                 return <SID>setup_space("lf", cmd)
-            elseif cmd =~ s:qf_re
+            elseif cmd =~ s:pre_re . s:qf_re
                 return <SID>setup_space("qf", cmd)
             endif
         endif
-        if s:tag_mappings && cmd =~ s:ta_re
+        if s:tag_mappings && cmd =~ s:pre_re . s:ta_re
             return <SID>setup_space("tag", cmd)
         endif
     end
