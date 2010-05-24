@@ -50,6 +50,9 @@
 " Disable <Space> for fold movement commands, e.g. [z, ]z, zj and zk
 "   let g:space_no_folds = 1
 "
+" Disable <Space> for tag movement commands, e.g. Ctrl-], :tag, etc.
+"   let g:space_no_tags = 1
+"
 " Disable <Space> for quickfix and location list commands, e.g. :cc, :ll, etc.
 "   let g:space_no_quickfix = 1
 "
