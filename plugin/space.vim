@@ -347,6 +347,7 @@ endfunction
 "       tedious to write a perfect regexp.
 
 let s:pre_re = '^\%(' .
+    \   '\%(noa\%[utocmd]\s\+\)\=' .
     \   '\%(' .
     \     '\%(' .
     \       '\%(\d\+\)\|' .
