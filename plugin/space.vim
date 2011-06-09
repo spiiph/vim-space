@@ -127,17 +127,17 @@ if !exists("g:space_no_search") || !g:space_no_search
     " do not override visual mappings for * and #
     " because these are often used for visual search functions
     if maparg('*', 'v') != ''
-        nnoremap <expr> <silent> *  <SID>setup_space("search", "*")
-        onoremap <expr> <silent> *  <SID>setup_space("search", "*")
+        nnoremap <expr> <silent> * <SID>setup_space("search", "*")
+        onoremap <expr> <silent> * <SID>setup_space("search", "*")
     else
-        noremap <expr> <silent> *  <SID>setup_space("search", "*")
+        noremap  <expr> <silent> * <SID>setup_space("search", "*")
     endif
 
     if maparg('#', 'v') != ''
-        nnoremap <expr> <silent> #  <SID>setup_space("search", "#")
-        onoremap <expr> <silent> #  <SID>setup_space("search", "#")
+        nnoremap <expr> <silent> # <SID>setup_space("search", "#")
+        onoremap <expr> <silent> # <SID>setup_space("search", "#")
     else
-        noremap <expr> <silent> #  <SID>setup_space("search", "#")
+        noremap  <expr> <silent> # <SID>setup_space("search", "#")
     endif
 
     noremap <expr> <silent> g* <SID>setup_space("search", "g*")
