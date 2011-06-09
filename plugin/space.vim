@@ -17,7 +17,7 @@
 
 " Set this variable to disable space.vim
 "
-"   let g:loaded_space = 1
+"   let g:space_loaded = 1
 
 " Set this variable to disable select mode mappings
 "
@@ -338,7 +338,7 @@ function! s:remove_space_mappings()
 
     silent! cunmap <CR>
 
-    silent! unlet g:loaded_space
+    silent! unlet g:space_loaded
 endfunction
 
 " TODO: Check if the '\>!\=' part of the pattern fails when 'iskeyword'
