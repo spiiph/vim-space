@@ -5,7 +5,7 @@
      ______  ______   _____   _____  _____
     / _____\ | ___ \ / ___ \ / ___/ / ___/
     \ \____  | ___ / | \ / | | |    | \__
-     \___  \ | |     | |X| | | |___ | /___
+     \___  \ | |     |  V  | | |___ | /___
     /______/ \_|     \_/ \_/ \____/ \____/
 
       By Henrik Öhman <speeph@gmail.com>
@@ -42,6 +42,9 @@ remaps <S-Space> and <BS> to do the reverse.
 NOTE:~Due to terminal restrictions, <S-Space> may not be available. For that
 reason, the <BS> key is also used for reverse motions. Wherever this document
 talks of <S-Space>, <BS> can be used in its place.
+
+NOTE:~When using the gVim space.vim won't remap <BS> if any previous mappings
+to it already exists. When using Vim <BS> is always remapped.
 
 NOTE:~space.vim has some problems with the |'foldopen'| option. Since Vim
 won't open folds if a command is part of a mapping, space.vim tries to
@@ -109,31 +112,31 @@ This is a list of all the commands that space.vim hooks into and provides
 <Space> and <S-Space> navigation for.
 
 Character movements:                                    |left-right-motions|
-    |f||F||t||T||;||,|
+    |f| |F| |t| |T| |;| |,|
 
 Search commands:                                           |search-commands|
-    |star||gstar||#||g#||n||N|
+    |star| |gstar| |#| |g#| |n| |N|
 
 Jump list jumps:                                              |jump-motions|
-    |CTRL-O||CTRL-I|
+    |CTRL-O| |CTRL-I|
 
 Change list jumps:                                       |change-list-jumps|
-    |g;||g,|
+    |g;| |g,|
 
 Diff jumps:                                                   |jumpto-diffs|
-    |]c||[c|
+    |]c| |[c|
 
 Parenthesis and bracket jumps:                             |various-motions|
-    |])||[(||]}||[{|
+    |])| |[(| |]}| |[{|
 
 Method jumps:                                              |various-motions|
-    |]m||[m||]M||[M|
+    |]m| |[m| |]M| |[M|
 
 Section jumps:                                              |object-motions|
-    |]]||[]||][||[[|
+    |]]| |[]| |][| |[[|
 
 Fold movements:
-    |zj||zk||]z||[z|
+    |zj| |zk| |]z| |[z|
 
 Tag movements:                                                |tag-commands|
     |CTRL-]|
@@ -146,39 +149,39 @@ Tag movements:                                                |tag-commands|
     |:tlast|
 
 Undolist movements:                                          |undo-branches|
-   |g-||g+|
+    |g-||g+|
 
 Quickfix commands:                                                |quickfix|
-   |:make|
-   |:vimgrep|
-   |:grep|
-   |:cc|
-   |:cnext|
-   |:cprevious|
-   |:cNext|
-   |:cfirst|
-   |:clast|
-   |:crewind|
-   |:cfile|
-   |:cnfile|
-   |:cpfile|
-   |:cNfile|
+    |:make|
+    |:vimgrep|
+    |:grep|
+    |:cc|
+    |:cnext|
+    |:cprevious|
+    |:cNext|
+    |:cfirst|
+    |:clast|
+    |:crewind|
+    |:cfile|
+    |:cnfile|
+    |:cpfile|
+    |:cNfile|
 
 Location list commands:                                      |location-list|
-   |:lmake|
-   |:lvimgrep|
-   |:lgrep|
-   |:ll|
-   |:lcnext|
-   |:lcprevious|
-   |:lcNext|
-   |:lcfirst|
-   |:lclast|
-   |:lcrewind|
-   |:lcfile|
-   |:lcnfile|
-   |:lcpfile|
-   |:lcNfile|
+    |:lmake|
+    |:lvimgrep|
+    |:lgrep|
+    |:ll|
+    |:lcnext|
+    |:lcprevious|
+    |:lcNext|
+    |:lcfirst|
+    |:lclast|
+    |:lcrewind|
+    |:lcfile|
+    |:lcnfile|
+    |:lcpfile|
+    |:lcNfile|
 
 ==============================================================================
 4. Status line integration                                *space-statusline*
@@ -245,4 +248,5 @@ like snipmate.vim) >
 6. License                                                   *space-license*
 
 space.vim is licensed under the same terms as Vim itself.
+
 vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:
