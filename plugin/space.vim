@@ -160,18 +160,12 @@ else
 endif
 
 " jump commands
+" NOTE: Jumps are not motions. They can't be used in Visual mode.
 if !exists("g:space_no_jump") || !g:space_no_jump
-    noremap <expr> <silent> g, <SID>setup_space("cjump", "g,")
-    noremap <expr> <silent> g; <SID>setup_space("cjump", "g;")
-    noremap <expr> <silent> <C-O> <SID>setup_space("jump", "\<C-o>")
-    noremap <expr> <silent> <C-I> <SID>setup_space("jump", "\<C-i>")
-
-    if exists("g:space_disable_select_mode")
-        silent! sunmap g,
-        silent! sunmap g;
-        silent! sunmap <C-o>
-        silent! sunmap <C-i>
-    endif
+    nnoremap <expr> <silent> g, <SID>setup_space("cjump", "g,")
+    nnoremap <expr> <silent> g; <SID>setup_space("cjump", "g;")
+    nnoremap <expr> <silent> <C-O> <SID>setup_space("jump", "\<C-o>")
+    nnoremap <expr> <silent> <C-I> <SID>setup_space("jump", "\<C-i>")
 endif
 
 " diff next/prev
@@ -303,10 +297,10 @@ function! s:remove_space_mappings()
     silent! unmap n
     silent! unmap N
 
-    silent! unmap g,
-    silent! unmap g;
-    silent! unmap <C-o>
-    silent! unmap <C-i>
+    silent! nunmap g,
+    silent! nunmap g;
+    silent! nunmap <C-o>
+    silent! nunmap <C-i>
 
     silent! unmap ]c
     silent! unmap [c
