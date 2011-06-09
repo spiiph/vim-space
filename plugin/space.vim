@@ -1,4 +1,4 @@
-" space.vim - Smart Space key
+" space.vim - Smar Space key
 " Author:       Henrik Öhman <speeph@gmail.com>
 " URL:          http://github.com/spiiph/vim-space/tree/master
 " Version:      1.7
@@ -135,10 +135,13 @@ if !exists("g:space_no_search") || !g:space_no_search
     " do not override visual mappings for * and #
     " because these are often used for visual search functions
     if maparg('*', 'v') != ''
-        nnoremap <expr> <silent> * <SID>setup_space("search", "*")
-        onoremap <expr> <silent> * <SID>setup_space("search", "*")
+        nnoremap <expr> <silent> *           <SID>setup_space("search", "*")
+        onoremap <expr> <silent> *           <SID>setup_space("search", "*")
+        nnoremap <expr> <silent> <kMultiply> <SID>setup_space("search", "*")
+        onoremap <expr> <silent> <kMultiply> <SID>setup_space("search", "*")
     else
-        noremap  <expr> <silent> * <SID>setup_space("search", "*")
+        noremap <expr> <silent> *           <SID>setup_space("search", "*")
+        noremap <expr> <silent> <kMultiply> <SID>setup_space("search", "*")
     endif
 
     if maparg('#', 'v') != ''
@@ -156,6 +159,7 @@ if !exists("g:space_no_search") || !g:space_no_search
     if exists("g:space_disable_select_mode")
         silent! sunmap *
         silent! sunmap #
+        silent! sunmap <kMultiply>
         silent! sunmap g*
         silent! sunmap g#
         silent! sunmap n
