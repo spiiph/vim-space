@@ -92,15 +92,23 @@ elseif exists("g:space_loaded")
 endif
 let g:space_loaded = 1
 
+" Mapping of <Space>/<S-Space> and possibly <BS>
 noremap <expr> <silent> <Space>   <SID>do_space(0, "<Space>")
 noremap <expr> <silent> <S-Space> <SID>do_space(1, "<S-Space>")
-noremap <expr> <silent> <BS>      <SID>do_space(1, "<BS>")
 
 if exists("g:space_disable_select_mode")
     silent! sunmap <Space>
     silent! sunmap <S-Space>
     silent! sunmap <BS>
 endif
+
+if mapcheck("<BS>") == "" || !has("gui_running")
+    noremap <expr> <silent> <BS>      <SID>do_space(1, "<BS>")
+    if exists("g:space_disable_select_mode")
+        silent! sunmap <BS>
+    endif
+endif
+
 
 " character movement commands
 if !exists("g:space_no_character_movements") || !g:space_no_character_movements
