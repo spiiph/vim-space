@@ -1,9 +1,8 @@
-" space.vim - Smar Space key
+" space.vim - Smart Space key
 " Author:       Henrik Öhman <speeph@gmail.com>
 " URL:          http://github.com/spiiph/vim-space/tree/master
-" Version:      1.7
-" LastChanged:  $LastChangedDate: 2009-04-23 01:42:43 +0200 (to, 23 apr 2009) $
-" Revision:     $Revision: 171 $
+" Version:      1.8
+" ReleaseDate:  2011 jun 09
 "
 " Licensed under the same terms as Vim itself.
 "
