@@ -16,21 +16,24 @@
 
                                                                  *space-toc*
 
-1. Intro                                               |space-intro|
-2. Usage                                               |space-usage|
-3. Hooks                                               |space-hooks|
-4. Status line integration                             |space-statusline|
-5. Configuration                                       |space-configuration|
-6. License                                             |space-license|
+1. Intro                                       |space-intro|
+2. Usage                                       |space-usage|
+3. Hooks                                       |space-hooks|
+4. Status line integration                     |space-statusline|
+5. Configuration                               |space-configuration|
+    5.1 User-defined mappings                          |space-conf-mapping|
+    5.2 Navigation group restriction                   |space-conf-navgroup|
+    5.3 Miscellaneous configuration                    |space-conf-misc|
+6. License                                     |space-license|
 
 
 
 ==============================================================================
 1. Intro                                                       *space-intro*
 
-space.vim is a plugin which remaps the *<Space>* key to act as a clever key
-to repeat motions. To disable space.vim, set the "space_loaded" global
-variable in your |vimrc| file: >
+space.vim is a plugin which remaps the *<Space>* key (or any other key, see
+|space-conf-mapping|) to act as a clever key to repeat motions. To disable
+space.vim, set the "space_loaded" global variable in your |vimrc| file: >
     :let g:space_loaded = 1
 
 space.vim hooks into several of the more complex motion commands, such as
@@ -201,6 +204,38 @@ status line using the GetSpaceMovement() function. Here's an example: >
 ==============================================================================
 5. Configuration                                       *space-configuration*
 
+
+5.1 User-defined mappings                               *space-conf-mapping* 
+
+It is possible to use another key than <Space> if you wish to. Just map
+another key to the right <plug> reference as shown below.
+
+Note: Be careful when choosing your mapping to not interfere with space.vim
+features. For example, by default, Vim maps <Tab> (ie. <C-i>) to "newer
+position in jump list" (see :h <tab>), which is actually something that
+space.vim can repeat by default. Hence, if you want to use the <Tab> key with
+space.vim, you need to disable "space_jump".
+
+
+
+Map <F1> instead of <Space> to jump to the next item: >
+    nmap <unique> <F1> <Plug>SmartspaceNext
+
+Map <Tab> instead of <S-Space> to jump to the previous item. Also disable
+space jump feature to avoid issues (see the note above): >
+    nmap <unique> <Tab> <Plug>SmartspacePrev
+    let g:space_no_jump = 1
+
+Map ; instead of <BS> to jump to the previous item (second mapping only for
+non-GUI, initially created to avoid <S-Space> terminal capability issues): >
+    nmap <unique> ; <Plug>SmartspacePrevnongui
+
+If you do not wish to use <Plug>SmartspacePrevnongui, use the following: >
+    let g:space_no_second_prev_mapping = 1            
+
+
+5.2 Navigation group restriction                       *space-conf-navgroup*
+
 It is possible to avoid using the <Space> key for groups of navigation
 commands using global variables. For instance, you may wish to use <Space> to
 repeat the last command only for diff jumps and quickfix and location list
@@ -238,6 +273,9 @@ Disable <Space> for quickfix and location list commands >
 
 Disable <Space> for undolist movements >
     let g:space_no_undolist = 1
+
+
+5.3 Miscellaneous configuration                            *space-conf-misc*
 
 Furthermore it is possible to disable the hooks and mappings set by space.vim
 to affect the select mode (these can cause problems with some snippets plugins
