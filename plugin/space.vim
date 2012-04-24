@@ -578,7 +578,8 @@ function! s:do_space(shift, default)
 endfunc
 
 function! s:maybe_open_fold(cmd)
-    if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type && v:operator != "c"
+    if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type &&
+                \ exists("v:operator") && v:operator != "c"
         " special treatment of :ex commands
         if s:cmd_type == "quickfix" || s:cmd_type == "tag"
             if getcmdtype() == ':'
