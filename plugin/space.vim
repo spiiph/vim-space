@@ -106,14 +106,14 @@ if !hasmapto('<Plug>SmartspaceNext')
     if mapcheck("<Space>") == ""
         nmap <unique> <Space> <Plug>SmartspaceNext
     else
-        echo "space.vim: <Space> key already mapped. Please map another key to <Plug>SmartspaceNext."
+        echomsg "space.vim: <Space> key already mapped. Please map another key to <Plug>SmartspaceNext."
     endif
 endif
 if !hasmapto('<Plug>SmartspacePrev')
     if mapcheck("<S-Space>") == ""
         nmap <unique> <S-Space> <Plug>SmartspacePrev
     else
-        echo "space.vim: <S-Space> key already mapped. Please map another key to <Plug>SmartspacePrev."
+        echomsg "space.vim: <S-Space> key already mapped. Please map another key to <Plug>SmartspacePrev."
     endif
 endif
 noremap <script> <expr> <silent> <Plug>SmartspaceNext <SID>do_space(0, v:char)
@@ -130,7 +130,7 @@ if !has("gui_running") && !g:space_no_second_prev_mapping
         if mapcheck("<BS>") == ""
             nmap <unique> <BS> <Plug>SmartspacePrevnogui
         else
-            echo "space.vim: <BS> key already mapped. Please map another key to <Plug>SmartspacePrevnogui."
+            echomsg "space.vim: <BS> key already mapped. Please map another key to <Plug>SmartspacePrevnogui."
         endif
     endif
     noremap <expr> <silent> <Plug>SmartspacePrevnogui <SID>do_space(1, v:char)
