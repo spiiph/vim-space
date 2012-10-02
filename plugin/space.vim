@@ -73,7 +73,11 @@
 " TODO: Make the mapping assignments more dynamical, and allow user defined
 "       commands?
 
-if exists("g:space_debug")
+" Debug mode: don't take user-defined options into acocunt
+if !exists("g:space_debug")
+    let g:space_debug = 0
+endif
+if g:space_debug
     let g:space_no_character_movements = 0
     let g:space_no_search = 0
     let g:space_no_jump = 0
@@ -85,17 +89,61 @@ if exists("g:space_debug")
     let g:space_no_quickfix = 0
     let g:space_no_undolist = 0
     let g:space_no_tags = 0
+    let g:space_no_foldopen = 0
+    let g:space_disable_select_mode = 0
     echomsg "Running space.vim in debug mode."
 elseif exists("g:space_loaded")
     finish
 endif
 let g:space_loaded = 1
 
+" Initialise default config vars values properly to avoid
+" using '!exists("g:space_foo") || !g:space_foo'
+if !exists("g:space_no_character_movements")
+    let g:space_no_character_movements = 0
+endif
+if !exists("g:space_no_search")
+    let g:space_no_search = 0
+endif
+if !exists("g:space_no_jump")
+    let g:space_no_jump = 0
+endif
+if !exists("g:space_no_diff")
+    let g:space_no_diff = 0
+endif
+if !exists("g:space_no_brace")
+    let g:space_no_brace = 0
+endif
+if !exists("g:space_no_method")
+    let g:space_no_method = 0
+endif
+if !exists("g:space_no_section")
+    let g:space_no_section = 0
+endif
+if !exists("g:space_no_folds")
+    let g:space_no_folds = 0
+endif
+if !exists("g:space_no_quickfix")
+    let g:space_no_quickfix = 0
+endif
+if !exists("g:space_no_undolist")
+    let g:space_no_undolist = 0
+endif
+if !exists("g:space_no_tags")
+    let g:space_no_tags = 0
+endif
+if !exists("g:space_disable_select_mode")
+    let g:space_disable_select_mode = 0
+endif
+if !exists("g:space_no_foldopen")
+    let g:space_no_foldopen = 0
+endif
+
 " Mapping of <Space>/<S-Space> and possibly <BS>
 noremap <expr> <silent> <Space>   <SID>do_space(0, "<Space>")
 noremap <expr> <silent> <S-Space> <SID>do_space(1, "<S-Space>")
 
-if exists("g:space_disable_select_mode")
+if g:space_disable_select_mode
     silent! sunmap <Space>
     silent! sunmap <S-Space>
     silent! sunmap <BS>
@@ -103,14 +151,14 @@ endif
 
 if mapcheck("<BS>") == "" || !has("gui_running")
     noremap <expr> <silent> <BS>      <SID>do_space(1, "<BS>")
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap <BS>
     endif
 endif
 
 
 " character movement commands
-if !exists("g:space_no_character_movements") || !g:space_no_character_movements
+if !g:space_no_character_movements
     noremap <expr> <silent> f <SID>setup_space("char", "f")
     noremap <expr> <silent> F <SID>setup_space("char", "F")
     noremap <expr> <silent> t <SID>setup_space("char", "t")
@@ -118,7 +166,7 @@ if !exists("g:space_no_character_movements") || !g:space_no_character_movements
     noremap <expr> <silent> ; <SID>setup_space("char", ";")
     noremap <expr> <silent> , <SID>setup_space("char", ",")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap f
         silent! sunmap F
         silent! sunmap t
@@ -129,7 +177,7 @@ if !exists("g:space_no_character_movements") || !g:space_no_character_movements
 endif
 
 " search commands
-if !exists("g:space_no_search") || !g:space_no_search
+if !g:space_no_search
 
     " do not override visual mappings for * and #
     " because these are often used for visual search functions
@@ -155,7 +203,7 @@ if !exists("g:space_no_search") || !g:space_no_search
     noremap <expr> <silent> n  <SID>setup_space("search", "n")
     noremap <expr> <silent> N  <SID>setup_space("search", "N")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap *
         silent! sunmap #
         silent! sunmap <kMultiply>
@@ -172,7 +220,7 @@ endif
 
 " jump commands
 " NOTE: Jumps are not motions. They can't be used in Visual mode.
-if !exists("g:space_no_jump") || !g:space_no_jump
+if !g:space_no_jump
     nnoremap <expr> <silent> g, <SID>setup_space("cjump", "g,")
     nnoremap <expr> <silent> g; <SID>setup_space("cjump", "g;")
     nnoremap <expr> <silent> <C-O> <SID>setup_space("jump", "\<C-o>")
@@ -180,25 +228,25 @@ if !exists("g:space_no_jump") || !g:space_no_jump
 endif
 
 " diff next/prev
-if !exists("g:space_no_diff") || !g:space_no_diff
+if !g:space_no_diff
     noremap <expr> <silent> ]c <SID>setup_space("diff", "]c")
     noremap <expr> <silent> [c <SID>setup_space("diff", "[c")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap ]c
         silent! sunmap [c
     endif
 endif
 
 " previous/next unmatched ( or [
-if !exists("g:space_no_brace") || !g:space_no_brace
+if !g:space_no_brace
     noremap <expr> <silent> ]) <SID>setup_space("paren", "])")
     noremap <expr> <silent> [( <SID>setup_space("paren", "[(")
 
     noremap <expr> <silent> ]} <SID>setup_space("curly", "]}")
     noremap <expr> <silent> [{ <SID>setup_space("curly", "[{")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap ])
         silent! sunmap [(
         silent! sunmap ]}
@@ -207,14 +255,14 @@ if !exists("g:space_no_brace") || !g:space_no_brace
 endif
 
 " start/end of a method
-if !exists("g:space_no_method") || !g:space_no_method
+if !g:space_no_method
     noremap <expr> <silent> ]m <SID>setup_space("method_start", "]m")
     noremap <expr> <silent> [m <SID>setup_space("method_start", "[m")
 
     noremap <expr> <silent> ]M <SID>setup_space("method_end", "]M")
     noremap <expr> <silent> [M <SID>setup_space("method_end", "[M")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap ]m
         silent! sunmap [m
         silent! sunmap ]M
@@ -223,14 +271,14 @@ if !exists("g:space_no_method") || !g:space_no_method
 endif
 
 " previous/next section or '}'/'{' in the first column
-if !exists("g:space_no_section") || !g:space_no_section
+if !g:space_no_section
     noremap <expr> <silent> ]] <SID>setup_space("section_start", "]]")
     noremap <expr> <silent> [[ <SID>setup_space("section_start", "[[")
 
     noremap <expr> <silent> ][ <SID>setup_space("section_end", "][")
     noremap <expr> <silent> [] <SID>setup_space("section_end", "[]")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap ]]
         silent! sunmap [[
         silent! sunmap ][
@@ -239,14 +287,14 @@ if !exists("g:space_no_section") || !g:space_no_section
 endif
 
 " previous/next fold
-if !exists("g:space_no_folds") || !g:space_no_folds
+if !g:space_no_folds
     noremap <expr> <silent> zj <SID>setup_space("fold_next", "zj")
     noremap <expr> <silent> zk <SID>setup_space("fold_next", "zk")
 
     noremap <expr> <silent> ]z <SID>setup_space("fold_start", "]z")
     noremap <expr> <silent> [z <SID>setup_space("fold_start", "[z")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap zj
         silent! sunmap zk
         silent! sunmap ]z
@@ -255,10 +303,10 @@ if !exists("g:space_no_folds") || !g:space_no_folds
 endif
 
 " tag movement
-if !exists("g:space_no_tags") || !g:space_no_tags
+if !g:space_no_tags
     noremap <expr> <silent> <C-]> <SID>setup_space("tag", "\<C-]>")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap <C-]>
     endif
 
@@ -268,18 +316,18 @@ else
 endif
 
 " undolist movement
-if !exists("g:space_no_undolist") || !g:space_no_undolist
+if !g:space_no_undolist
     noremap <expr> <silent> g- <SID>setup_space("undo", "g-")
     noremap <expr> <silent> g+ <SID>setup_space("undo", "g+")
 
-    if exists("g:space_disable_select_mode")
+    if g:space_disable_select_mode
         silent! sunmap g-
         silent! sunmap g+
     endif
 endif
 
 " quickfix and location list commands
-if !exists("g:space_no_quickfix") || !g:space_no_quickfix
+if !g:space_no_quickfix
     cnoremap <expr> <CR> <SID>parse_cmd_line()
     let s:quickfix_mappings = 1
 else
@@ -546,7 +594,7 @@ function! s:do_space(shift, default)
 endfunc
 
 function! s:maybe_open_fold(cmd)
-    if !exists("g:space_no_foldopen") && &foldopen =~ s:cmd_type && v:operator != "c"
+    if !g:space_no_foldopen && &foldopen =~ s:cmd_type && v:operator != "c"
         " special treatment of :ex commands
         if s:cmd_type == "quickfix" || s:cmd_type == "tag"
             if getcmdtype() == ':'
@@ -584,7 +632,7 @@ function! s:maybe_open_fold(cmd)
 endfunc
 
 function! s:debug_msg(string)
-    if exists("g:space_debug")
+    if g:space_debug
         echomsg a:string
     endif
 endfunc
