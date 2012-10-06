@@ -140,21 +140,43 @@ if !exists("g:space_no_foldopen")
 endif
 
 " Mapping of <Space>/<S-Space> and possibly <BS>
-noremap <expr> <silent> <Space>   <SID>do_space(0, "<Space>")
-noremap <expr> <silent> <S-Space> <SID>do_space(1, "<S-Space>")
-
-if g:space_disable_select_mode
-    silent! sunmap <Space>
-    silent! sunmap <S-Space>
-    silent! sunmap <BS>
-endif
-
-if mapcheck("<BS>") == "" || !has("gui_running")
-    noremap <expr> <silent> <BS>      <SID>do_space(1, "<BS>")
-    if g:space_disable_select_mode
-        silent! sunmap <BS>
+if !hasmapto('<Plug>SmartspaceNext')
+    if mapcheck("<Space>") == ""
+        nmap <unique> <Space> <Plug>SmartspaceNext
+    else
+        echomsg "space.vim: <Space> key already mapped. Please map another key to <Plug>SmartspaceNext."
     endif
 endif
+if !hasmapto('<Plug>SmartspacePrev')
+    if mapcheck("<S-Space>") == ""
+        nmap <unique> <S-Space> <Plug>SmartspacePrev
+    else
+        echomsg "space.vim: <S-Space> key already mapped. Please map another key to <Plug>SmartspacePrev."
+    endif
+endif
+noremap <script> <expr> <silent> <Plug>SmartspaceNext <SID>do_space(0, v:char)
+noremap <script> <expr> <silent> <Plug>SmartspacePrev <SID>do_space(1, v:char)
+
+if g:space_disable_select_mode
+    silent! sunmap <Plug>SmartspaceNext
+    silent! sunmap <Plug>SmartspacePrev
+endif
+
+" <BS> is only for console
+if !has("gui_running")
+    if !hasmapto('<Plug>SmartspacePrevnogui')
+        if mapcheck("<BS>") == ""
+            nmap <unique> <BS> <Plug>SmartspacePrevnogui
+        else
+            echomsg "space.vim: <BS> key already mapped. Please map another key to <Plug>SmartspacePrevnogui."
+        endif
+    endif
+    noremap <expr> <silent> <Plug>SmartspacePrevnogui <SID>do_space(1, v:char)
+
+    if g:space_disable_select_mode
+        silent! sunmap <Plug>SmartspacePrevnogui
+     endif
+ endif
 
 
 " character movement commands
@@ -338,9 +360,9 @@ endif
 "       list to remove mappings.
 command! SpaceRemoveMappings call <SID>remove_space_mappings()
 function! s:remove_space_mappings()
-    silent! unmap <Space>
-    silent! unmap <S-Space>
-    silent! unmap <BS>
+    silent! unmap <Plug>SmartspaceNext
+    silent! unmap <Plug>SmartspacePrev
+    silent! unmap <Plug>SmartspacePrevnogui
 
     silent! unmap f
     silent! unmap F
