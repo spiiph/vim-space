@@ -251,6 +251,10 @@ to affect the select mode (these can cause problems with some snippets plugins
 like snipmate.vim) >
     let g:space_disable_select_mode = 1
 
+If you do not wish to use the <Plug>SmartspacePrevnongui mapping (and avoid
+having space.vim remap <BS>), use the following: >
+    let g:space_no_second_prev_mapping = 1
+
 5.1 User-defined mappings                               *space-conf-mapping*
 
 It is possible to use other keys than <Space>, <S-Space> and <BS> if you wish

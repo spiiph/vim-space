@@ -91,6 +91,7 @@ if g:space_debug
     let g:space_no_tags = 0
     let g:space_no_foldopen = 0
     let g:space_disable_select_mode = 0
+    let g:space_no_second_prev_mapping = 0
     echomsg "Running space.vim in debug mode."
 elseif exists("g:space_loaded")
     finish
@@ -138,6 +139,10 @@ endif
 if !exists("g:space_no_foldopen")
     let g:space_no_foldopen = 0
 endif
+if !exists("g:space_no_second_prev_mapping")
+    let g:space_no_second_prev_mapping = 0
+endif
+
 
 " Mapping of <Space>/<S-Space> and possibly <BS>
 if !hasmapto('<Plug>SmartspaceNext')
@@ -163,12 +168,13 @@ if g:space_disable_select_mode
 endif
 
 " <BS> is only for console
-if !has("gui_running")
+if !has("gui_running") && !g:space_no_second_prev_mapping
     if !hasmapto('<Plug>SmartspacePrevnogui')
         if mapcheck("<BS>") == ""
             nmap <unique> <BS> <Plug>SmartspacePrevnogui
         else
-            echomsg "space.vim: <BS> key already mapped. Please map another key to <Plug>SmartspacePrevnogui."
+            echomsg "space.vim: <BS> key already mapped. Please map another key to <Plug>SmartspacePrevnogui"
+            echomsg "or add 'let g:space_no_second_prev_mapping = 1' in your conf to disable the mapping."
         endif
     endif
     noremap <expr> <silent> <Plug>SmartspacePrevnogui <SID>do_space(1, v:char)
@@ -176,7 +182,7 @@ if !has("gui_running")
     if g:space_disable_select_mode
         silent! sunmap <Plug>SmartspacePrevnogui
      endif
- endif
+endif
 
 
 " character movement commands
