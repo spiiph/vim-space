@@ -31,6 +31,9 @@
 " Disable <Space> for searches, e.g. /?#*nN
 "   let g:space_no_search = 1
 "
+" Disable <Space> for spelling movement commands, e.g. [s, ]s, [S and ]S
+"   let g:space_no_spell = 1
+"
 " Disable <Space> for jump commands, e.g. Ctrl-O, Ctrl-I, g, and g;
 "   let g:space_no_jump = 1
 "
@@ -76,6 +79,7 @@
 if exists("g:space_debug")
     let g:space_no_character_movements = 0
     let g:space_no_search = 0
+    let g:space_no_spell = 0
     let g:space_no_jump = 0
     let g:space_no_diff = 0
     let g:space_no_brace = 0
@@ -168,6 +172,22 @@ if !exists("g:space_no_search") || !g:space_no_search
     let s:search_mappings = 1
 else
     let s:search_mappings = 0
+endif
+
+" previous/next spelling error
+if !exists("g:space_no_spell") || !g:space_no_spell
+    noremap <expr> <silent> ]s <SID>setup_space("spell_next", "]s")
+    noremap <expr> <silent> [s <SID>setup_space("spell_next", "[s")
+
+    noremap <expr> <silent> ]S <SID>setup_space("rare_next", "]S")
+    noremap <expr> <silent> [S <SID>setup_space("rare_next", "[S")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap ]s
+        silent! sunmap [s
+        silent! sunmap ]S
+        silent! sunmap [S
+    endif
 endif
 
 " jump commands
@@ -307,6 +327,11 @@ function! s:remove_space_mappings()
     silent! unmap g#
     silent! unmap n
     silent! unmap N
+
+    silent! unmap ]s
+    silent! unmap [s
+    silent! unmap ]S
+    silent! unmap [S
 
     silent! nunmap g,
     silent! nunmap g;
@@ -484,6 +509,16 @@ function! s:setup_space(type, command)
     elseif a:type == "search"
         let s:space_move = "n"
         let s:shift_space_move = "N"
+        let s:cmd_type = "search"
+        let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "spell_next"
+        let s:space_move = "]s"
+        let s:shift_space_move = "[s"
+        let s:cmd_type = "search"
+        let cmd = <SID>maybe_open_fold(cmd)
+    elseif a:type == "rare_next"
+        let s:space_move = "]S"
+        let s:shift_space_move = "[S"
         let s:cmd_type = "search"
         let cmd = <SID>maybe_open_fold(cmd)
     elseif a:type == "cjump"
