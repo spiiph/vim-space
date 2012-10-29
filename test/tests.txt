@@ -73,6 +73,10 @@
   + [[
   + ][
   + []
+  + ]s
+  + [s
+  + ]S
+  + [S
 
 = Test visual mode mappings
   + f
@@ -103,6 +107,10 @@
   + [[
   + ][
   + []
+  + ]s
+  + [s
+  + ]S
+  + [S
 
 = Test quickfix and location list commands
   + :cc
@@ -144,6 +152,10 @@
   / ?       search
   + n       search
   + N       search
+  + ]s      search
+  + [s      search
+  + ]S      search
+  + [S      search
   + ])      block
   + [(      block
   + ]}      block

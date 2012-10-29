@@ -135,6 +135,9 @@ Method jumps:                                              |various-motions|
 Section jumps:                                              |object-motions|
     |]]| |[]| |][| |[[|
 
+Spelling jumps:                                           |spell-quickstart|
+    |]s| |[s| |]S| |[S|
+
 Fold movements:
     |zj| |zk| |]z| |[z|
 
