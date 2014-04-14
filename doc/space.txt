@@ -209,6 +209,9 @@ commands. Here's a list of commands that disable the use of the <Space> key
 Disable <Space> for character movements >
     let g:space_no_character_movements = 1
 
+Disable <Space> for ONLY repeat character movements, e.g. ;,
+    let g:space_no_character_repeat_movements = 1
+
 Disable <Space> for search commands >
     let g:space_no_search = 1
 
