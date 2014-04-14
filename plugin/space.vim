@@ -28,6 +28,9 @@
 " Disable <Space> for character movements, e.g. fFtT;,
 "   let g:space_no_character_movements = 1
 "
+" Disable <Space> for ONLY repeat character movements, e.g. ;,
+"   let g:space_no_character_repeat_movements = 1
+"
 " Disable <Space> for searches, e.g. /?#*nN
 "   let g:space_no_search = 1
 "
@@ -75,6 +78,7 @@
 
 if exists("g:space_debug")
     let g:space_no_character_movements = 0
+    let g:space_no_character_repeat_movements = 0
     let g:space_no_search = 0
     let g:space_no_jump = 0
     let g:space_no_diff = 0
@@ -115,8 +119,10 @@ if !exists("g:space_no_character_movements") || !g:space_no_character_movements
     noremap <expr> <silent> F <SID>setup_space("char", "F")
     noremap <expr> <silent> t <SID>setup_space("char", "t")
     noremap <expr> <silent> T <SID>setup_space("char", "T")
-    noremap <expr> <silent> ; <SID>setup_space("char", ";")
-    noremap <expr> <silent> , <SID>setup_space("char", ",")
+    if !exists("g:space_no_character_repeat_movements") || !g:space_no_character_repeat_movements
+        noremap <expr> <silent> ; <SID>setup_space("char", ";")
+        noremap <expr> <silent> , <SID>setup_space("char", ",")
+    endif
 
     if exists("g:space_disable_select_mode")
         silent! sunmap f
