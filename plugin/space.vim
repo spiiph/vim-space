@@ -57,6 +57,9 @@
 "
 " Disable <Space> for undolist movements, e.g. g- and g+
 "   let g:space_no_undolist = 1
+"
+" Disable <Space> for unimpaired quickfix, location list & tag
+"   let g:space_no_unimpaired = 1
 
 " It is possible to display the current command assigned to <Space> in the
 " status line using the GetSpaceMovement() function. Here's an example:
@@ -85,6 +88,7 @@ if exists("g:space_debug")
     let g:space_no_quickfix = 0
     let g:space_no_undolist = 0
     let g:space_no_tags = 0
+    let g:space_no_unimpaired = 0
     echomsg "Running space.vim in debug mode."
 elseif exists("g:space_loaded")
     finish
@@ -286,6 +290,32 @@ else
     let s:quickfix_mappings = 0
 endif
 
+" vim-unimpaired quickfix, location list & tag
+if !exists("g:space_no_unimpaired") || !g:space_no_unimpaired
+    noremap <expr> <silent> [n <SID>setup_space("scm_conflict", "[n")
+    noremap <expr> <silent> ]n <SID>setup_space("scm_conflict", "]n")
+
+    noremap <expr> <silent> [q <SID>setup_space("qf", "cp")
+    noremap <expr> <silent> ]q <SID>setup_space("qf", "cn")
+
+    noremap <expr> <silent> ]l <SID>setup_space("lf", "lp")
+    noremap <expr> <silent> [l <SID>setup_space("lf", "lne")
+
+    noremap <expr> <silent> ]t <SID>setup_space("tag", "tp")
+    noremap <expr> <silent> [t <SID>setup_space("tag", "tn")
+
+    if exists("g:space_disable_select_mode")
+        silent! sunmap [n
+        silent! sunmap ]n
+        silent! sunmap [q
+        silent! sunmap ]q
+        silent! sunmap [l
+        silent! sunmap ]l
+        silent! sunmap [t
+        silent! sunmap ]t
+    endif
+endif
+
 " TODO: Have all mappings add the remapped sequence to a list, and use that
 "       list to remove mappings.
 command! SpaceRemoveMappings call <SID>remove_space_mappings()
@@ -442,6 +472,9 @@ function! s:setup_space(type, command)
         if cmd =~ "[;,]$"
             let cmd = <SID>maybe_open_fold(cmd)
         endif
+    elseif a:type == "scm_conflict"
+        let s:space_move = "]n"
+        let s:shift_space_move = "[n"
     elseif a:type == "diff"
         let s:space_move = "]c"
         let s:shift_space_move = "[c"
