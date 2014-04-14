@@ -184,7 +184,7 @@ Location list commands:                                      |location-list|
     |:lcNfile|
 
 vim-|unimpaired| motions:                               |unimpaired-motions|
-    |]q| |[q| |]l| |[l]|
+    |]q| |[q| |]l| |[l]| |]t| |[t|
 
 ==============================================================================
 4. Status line integration                                *space-statusline*
@@ -242,7 +242,7 @@ Disable <Space> for quickfix and location list commands >
 Disable <Space> for undolist movements >
     let g:space_no_undolist = 1
 
-Disable <Space> for unimpaired quickfix & location list
+Disable <Space> for unimpaired quickfix, location list & tag
     let g:space_no_unimpaired = 1
 
 Furthermore it is possible to disable the hooks and mappings set by space.vim

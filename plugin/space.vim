@@ -58,7 +58,7 @@
 " Disable <Space> for undolist movements, e.g. g- and g+
 "   let g:space_no_undolist = 1
 "
-" Disable <Space> for unimpaired quickfix & location list
+" Disable <Space> for unimpaired quickfix, location list & tag
 "   let g:space_no_unimpaired = 1
 
 " It is possible to display the current command assigned to <Space> in the
@@ -290,7 +290,7 @@ else
     let s:quickfix_mappings = 0
 endif
 
-" vim-unimpaired quickfix & location list
+" vim-unimpaired quickfix, location list & tag
 if !exists("g:space_no_unimpaired") || !g:space_no_unimpaired
     noremap <expr> <silent> [q <SID>setup_space("qf", "cp")
     noremap <expr> <silent> ]q <SID>setup_space("qf", "cn")
@@ -298,11 +298,16 @@ if !exists("g:space_no_unimpaired") || !g:space_no_unimpaired
     noremap <expr> <silent> ]l <SID>setup_space("lf", "lp")
     noremap <expr> <silent> [l <SID>setup_space("lf", "lne")
 
+    noremap <expr> <silent> ]t <SID>setup_space("tag", "tp")
+    noremap <expr> <silent> [t <SID>setup_space("tag", "tn")
+
     if exists("g:space_disable_select_mode")
         silent! sunmap [q
         silent! sunmap ]q
         silent! sunmap [l
         silent! sunmap ]l
+        silent! sunmap [t
+        silent! sunmap ]t
     endif
 endif
 
