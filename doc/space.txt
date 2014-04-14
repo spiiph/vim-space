@@ -184,7 +184,7 @@ Location list commands:                                      |location-list|
     |:lcNfile|
 
 vim-|unimpaired| motions:                               |unimpaired-motions|
-    |]q| |[q| |]l| |[l]| |]t| |[t|
+    |]n| |[n| |]q| |[q| |]l| |[l]| |]t| |[t|
 
 ==============================================================================
 4. Status line integration                                *space-statusline*

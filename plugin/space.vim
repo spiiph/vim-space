@@ -292,6 +292,9 @@ endif
 
 " vim-unimpaired quickfix, location list & tag
 if !exists("g:space_no_unimpaired") || !g:space_no_unimpaired
+    noremap <expr> <silent> [n <SID>setup_space("scm_conflict", "[n")
+    noremap <expr> <silent> ]n <SID>setup_space("scm_conflict", "]n")
+
     noremap <expr> <silent> [q <SID>setup_space("qf", "cp")
     noremap <expr> <silent> ]q <SID>setup_space("qf", "cn")
 
@@ -302,6 +305,8 @@ if !exists("g:space_no_unimpaired") || !g:space_no_unimpaired
     noremap <expr> <silent> [t <SID>setup_space("tag", "tn")
 
     if exists("g:space_disable_select_mode")
+        silent! sunmap [n
+        silent! sunmap ]n
         silent! sunmap [q
         silent! sunmap ]q
         silent! sunmap [l
@@ -467,6 +472,9 @@ function! s:setup_space(type, command)
         if cmd =~ "[;,]$"
             let cmd = <SID>maybe_open_fold(cmd)
         endif
+    elseif a:type == "scm_conflict"
+        let s:space_move = "]n"
+        let s:shift_space_move = "[n"
     elseif a:type == "diff"
         let s:space_move = "]c"
         let s:shift_space_move = "[c"
